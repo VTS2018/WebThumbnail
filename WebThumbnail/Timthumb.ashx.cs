@@ -10,7 +10,7 @@ namespace WebThumbnail.Web
 {
     #region 同步方式
     /// <summary>
-    /// Timthumb 的摘要说明
+    /// Timthumb 的摘要说明-同步方式
     /// </summary>
     public class Timthumb : IHttpHandler
     {
@@ -35,7 +35,7 @@ namespace WebThumbnail.Web
             //图片地址
             string src = VTSRequest.GetQueryString("src");
 
-            //原始 URL
+            //原始 URL --一张图片一个唯一的URL地址
             string url = VTSRequest.GetRawUrl();
 
             //图片名字
@@ -44,6 +44,7 @@ namespace WebThumbnail.Web
             //////////////开始分文件夹/////////////////
             string folderName = md5.Substring(0, 2);
             string imageDir = Context.Server.MapPath("/cache/cache_images/" + folderName);
+
             if (!System.IO.Directory.Exists(imageDir))
             {
                 System.IO.Directory.CreateDirectory(imageDir);
@@ -77,6 +78,8 @@ namespace WebThumbnail.Web
             else
             {
                 #region 图片不存在
+
+                #region 线程池生成
                 ImagePackage image = new ImagePackage();
                 image.Src = src;
                 image.SavePath = imageSavePath;
@@ -85,9 +88,13 @@ namespace WebThumbnail.Web
 
                 WaitCallback callBack = new WaitCallback(GeneratePicture);
                 ThreadPool.QueueUserWorkItem(callBack, image);
+                //GeneratePicture(image);
+                #endregion
 
+                #region 响应  随机
                 imageSavePath = Context.Server.MapPath(string.Concat("/common/images/random/tb", ImageRandom.GetRandomInt().ToString(), ".jpg"));
-                b = VTSCommon.GetPictureData(imageSavePath);
+                b = VTSCommon.GetPictureData(imageSavePath); 
+                #endregion
 
                 //清除缓存头策略
                 Context.Response.Cache.SetCacheability(HttpCacheability.NoCache);

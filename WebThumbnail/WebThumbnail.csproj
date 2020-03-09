@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="common\images\process\loading.gif" />
     <Content Include="common\images\process\process.gif" />
     <Content Include="common\images\random\tb1.jpg" />
     <Content Include="common\images\random\tb10.jpg" />
@@ -78,6 +79,7 @@
     <Content Include="common\images\random\tb8.jpg" />
     <Content Include="common\images\random\tb9.jpg" />
     <Content Include="Default.aspx" />
+    <Content Include="index.html" />
     <Content Include="log\log.txt" />
     <Content Include="Web.config" />
   </ItemGroup>

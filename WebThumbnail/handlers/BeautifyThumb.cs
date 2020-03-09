@@ -39,7 +39,7 @@ namespace WebThumbnail.Handlers
 
             //分析参数  http://beautify.afuli.mobi 
             //示例参数：/https/storage.googleapis.com/140x80/cut/forward/beautify/Pics/1007/005/7A8A25209579C10A943A13E4C27AF54/14.jpg
-            string[] urlarrs = url.Replace("http://", "").TrimStart('/').Split('/');
+            string[] urlarrs = url.Replace("http://", "").Replace("https://", "").TrimStart('/').Split('/');
 
             //urlarrs[0]=thumb.afuli.mobi
             //urlarrs[0]=https
@@ -127,7 +127,7 @@ namespace WebThumbnail.Handlers
                 #region 响应输出
                 //随机响应
                 //imageSavePath = Context.Server.MapPath(string.Concat("/common/images/random/tb", ImageRandom.GetRandomInt().ToString(), ".jpg"));
-                imageSavePath = Context.Server.MapPath("/common/images/process/process.gif");
+                imageSavePath = Context.Server.MapPath("/common/images/process/loading.gif");
                 b = VTSCommon.GetPictureData(imageSavePath);
                 Context.Response.OutputStream.Write(b, 0, b.Length);
                 #endregion

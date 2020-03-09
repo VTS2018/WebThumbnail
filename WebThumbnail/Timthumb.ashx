@@ -1,1 +1,1 @@
-﻿<%@ WebHandler Language="C#" CodeBehind="Timthumb.ashx.cs" Class="VTS.Web.Timthumb" %>
+﻿<%@ WebHandler Language="C#" CodeBehind="Timthumb.ashx.cs" Class="WebThumbnail.Web.Timthumb" %>

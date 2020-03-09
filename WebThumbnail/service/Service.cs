@@ -6,7 +6,7 @@ using System.Web;
 namespace WebThumbnail.Service
 {
     #region Image Random
-    public static class ImageRandom
+    public class ImageRandom
     {
         #region 随机变量
         /// <summary>
