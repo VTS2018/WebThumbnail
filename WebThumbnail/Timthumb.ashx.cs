@@ -26,10 +26,14 @@ namespace WebThumbnail.Web
             Context.Response.ClearContent();
             Context.Response.ContentType = "image/jpeg";
 
+            string static_cache = "/cache/cache_images/";
+            string static_random = "/common/images/random/tb";
+
             //宽度
             int w = VTSRequest.GetQueryInt("w");
             //高度
             int h = VTSRequest.GetQueryInt("h");
+
             //预留
             int zc = VTSRequest.GetQueryInt("zc");
             //图片地址
@@ -43,11 +47,11 @@ namespace WebThumbnail.Web
 
             //////////////开始分文件夹/////////////////
             string folderName = md5.Substring(0, 2);
-            string imageDir = Context.Server.MapPath("/cache/cache_images/" + folderName);
+            string imageDir = Context.Server.MapPath(static_cache + folderName);
 
-            if (!System.IO.Directory.Exists(imageDir))
+            if (!Directory.Exists(imageDir))
             {
-                System.IO.Directory.CreateDirectory(imageDir);
+                Directory.CreateDirectory(imageDir);
             }
             //////////////结束分文件夹/////////////////
 
@@ -86,13 +90,16 @@ namespace WebThumbnail.Web
                 image.Width = w;
                 image.Height = h;
 
+                //线程池生成
                 WaitCallback callBack = new WaitCallback(GeneratePicture);
                 ThreadPool.QueueUserWorkItem(callBack, image);
+
+                //直接生成
                 //GeneratePicture(image);
                 #endregion
 
                 #region 响应  随机
-                imageSavePath = Context.Server.MapPath(string.Concat("/common/images/random/tb", ImageRandom.GetRandomInt().ToString(), ".jpg"));
+                imageSavePath = Context.Server.MapPath(string.Concat(static_random, ImageRandom.GetRandomInt().ToString(), ".jpg"));
                 b = VTSCommon.GetPictureData(imageSavePath); 
                 #endregion
 

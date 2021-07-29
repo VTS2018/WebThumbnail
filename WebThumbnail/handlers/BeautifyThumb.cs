@@ -20,6 +20,8 @@ namespace WebThumbnail.Handlers
             Context.Response.ClearContent();
             Context.Response.ContentType = "image/jpeg";
 
+            string static_cache = "/cache/cache_images/";
+
             //接收参数
             string url = VTSRequest.GetRawUrl();
             //图片名字
@@ -27,15 +29,15 @@ namespace WebThumbnail.Handlers
 
             //////////////开始分文件夹/////////////////
             string folderName = md5.Substring(0, 2);
-            string imageDir = Context.Server.MapPath("/cache/cache_images/" + folderName);
-            if (!System.IO.Directory.Exists(imageDir))
+            string imageDir = Context.Server.MapPath(static_cache + folderName);
+            if (!Directory.Exists(imageDir))
             {
-                System.IO.Directory.CreateDirectory(imageDir);
+                Directory.CreateDirectory(imageDir);
             }
             //////////////结束分文件夹/////////////////
 
             //物理地址
-            string imageSavePath = string.Concat(imageDir, "\\", md5, ".jpg"); //Context.Server.MapPath("/cache/cache_images/" + md5 + ".jpg");
+            string imageSavePath = string.Concat(imageDir, "\\", md5, ".jpg");
 
             //分析参数  http://beautify.afuli.mobi 
             //示例参数：/https/storage.googleapis.com/140x80/cut/forward/beautify/Pics/1007/005/7A8A25209579C10A943A13E4C27AF54/14.jpg
@@ -147,7 +149,6 @@ namespace WebThumbnail.Handlers
             {
                 if (obj == null) { return; }
                 ImagePackage data = (ImagePackage)obj;
-                //Thumbnail.MakeRemoteThumbnailImage(data.Src, data.SavePath, data.Width, data.Height, "Cut");
                 Thumbnail.MakeRemoteThumbnailImage(data.Src, data.SavePath, data.Width, data.Height, data.Model);
             }
             catch (Exception ex)
